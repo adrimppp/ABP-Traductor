@@ -1,18 +1,12 @@
 package com.example.myapplication
 
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
-import com.example.myapplication.ui.theme.MyApplicationTheme
-
+import android.content.Context
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
+import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.google.ai.client.generativeai.GenerativeModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,13 +14,22 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
+
     val generativeModel = GenerativeModel(
         modelName = "gemini-2.0-flash",
         apiKey = "AIzaSyD8xff27DOn-wv9SpveL_sTWxFSavZ85XI"
     )
-    val mensajeInicial = "Eres un traductor. Debes responder en el formato 'idioma -> traducción' No respondas este mensaje."
+
+    val mensajeInicial =
+        "Eres un traductor. Debes responder en el formato 'idioma -> traducción' No respondas este mensaje."
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Cargar modo noche guardado antes de setContentView
+        val prefs = getSharedPreferences("ajustes", Context.MODE_PRIVATE)
+        val modoNoche = prefs.getBoolean("modoNoche", false)
+        val nightMode = if (modoNoche) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        AppCompatDelegate.setDefaultNightMode(nightMode)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -35,17 +38,12 @@ class MainActivity : AppCompatActivity() {
         val switchModo = findViewById<Switch>(R.id.switch1)
         val btnEnviar = findViewById<Button>(R.id.btnEnviar)
         val editText = findViewById<EditText>(R.id.etNombre)
-
-        // Ejemplo: Acceso a los CheckBox e idioma seleccionado del Spinner
-        val checkIngles = findViewById<CheckBox>(R.id.checkBox)
-        val checkItaliano = findViewById<CheckBox>(R.id.checkBox2)
-        val checkChino = findViewById<CheckBox>(R.id.checkBox3)
-        val checkHungaro = findViewById<CheckBox>(R.id.checkBox4)
-
-        // Opcional: Configurar contenido del Spinner (idiomas ejemplo)
         val spinner = findViewById<Spinner>(R.id.spinner)
 
-        // Crear el adaptador desde el recurso XML
+        // Configurar switch según modo guardado
+        switchModo.isChecked = modoNoche
+
+        // Adaptador del spinner
         val adapter = ArrayAdapter.createFromResource(
             this,
             R.array.idiomas_aplicacion,
@@ -54,23 +52,21 @@ class MainActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
-
         // Listener del botón
         btnEnviar.setOnClickListener {
-            val editText=findViewById<EditText>(R.id.etNombre)
-            val idiomasALosQueTraducir=obtenerIdiomasALosQueTraducir()
-            if(idiomasALosQueTraducir!="" && editText.toString()!="") {
-                val texto = editText.text.toString()
-                var prompt:String= "$mensajeInicial Traduce esta cadena $texto a los siguientes idiomas: $idiomasALosQueTraducir" ;
-                println(prompt)
+            val texto = editText.text.toString()
+            val idiomas = obtenerIdiomasALosQueTraducir()
+
+            if (idiomas.isNotEmpty() && texto.isNotEmpty()) {
+                val prompt = "$mensajeInicial Traduce esta cadena $texto a los siguientes idiomas: $idiomas"
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         val response = generativeModel.generateContent(prompt)
                         val resultado = response.text ?: "Sin respuesta"
 
                         withContext(Dispatchers.Main) {
-                            val mostrarResultado= findViewById<TextView>(R.id.tvResultado)
-                            mostrarResultado.text=resultado
+                            val mostrarResultado = findViewById<TextView>(R.id.tvResultado)
+                            mostrarResultado.text = resultado
                         }
                     } catch (e: Exception) {
                         withContext(Dispatchers.Main) {
@@ -79,27 +75,33 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 Toast.makeText(this, "Texto enviado: $texto", Toast.LENGTH_SHORT).show()
-            } else{
+            } else {
                 Toast.makeText(this, "Selecciona al menos un idioma y pon algo", Toast.LENGTH_SHORT).show()
             }
         }
 
+        // Cambio de tema con AppCompatDelegate
         switchModo.setOnCheckedChangeListener { _, isChecked ->
-            val colorRes = if (isChecked) R.color.fondoNoche else R.color.fondoDia
-            layoutPrincipal.setBackgroundColor(ContextCompat.getColor(this, colorRes))
+            val nuevoModo = if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            AppCompatDelegate.setDefaultNightMode(nuevoModo)
+
+            // Guardamos la preferencia
+            val editor = getSharedPreferences("ajustes", MODE_PRIVATE).edit()
+            editor.putBoolean("modoNoche", isChecked)
+            editor.apply()
         }
     }
 
     fun obtenerIdiomasALosQueTraducir(): String {
         val checkIngles = findViewById<CheckBox>(R.id.checkBox)
-        val checkItaliano = findViewById<CheckBox>(R.id.checkBox2)
+        val checkRuso = findViewById<CheckBox>(R.id.checkBox2)
         val checkChino = findViewById<CheckBox>(R.id.checkBox3)
         val checkHungaro = findViewById<CheckBox>(R.id.checkBox4)
 
         val idiomasSeleccionados = mutableListOf<String>()
 
         if (checkIngles.isChecked) idiomasSeleccionados.add("Inglés")
-        if (checkItaliano.isChecked) idiomasSeleccionados.add("Italiano")
+        if (checkRuso.isChecked) idiomasSeleccionados.add("Ruso")
         if (checkChino.isChecked) idiomasSeleccionados.add("Chino")
         if (checkHungaro.isChecked) idiomasSeleccionados.add("Húngaro")
 
@@ -109,7 +111,4 @@ class MainActivity : AppCompatActivity() {
             ""
         }
     }
-
-
-
 }
