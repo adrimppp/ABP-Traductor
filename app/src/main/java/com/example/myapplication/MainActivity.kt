@@ -79,20 +79,30 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Selecciona al menos un idioma y pon algo", Toast.LENGTH_SHORT).show()
             }
         }
+        val scrollView = findViewById<ScrollView>(R.id.scrollView)
+        val isNightMode = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+
+        // Establece el fondo del ScrollView según el modo de tema
+        if (isNightMode) {
+            scrollView.setBackgroundColor(resources.getColor(R.color.scroll_background_dark, null))
+        } else {
+            scrollView.setBackgroundColor(resources.getColor(R.color.scroll_background_light, null))
+        }
 
         // Cambio de tema con AppCompatDelegate
         switchModo.setOnCheckedChangeListener { _, isChecked ->
             val nuevoModo = if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
             AppCompatDelegate.setDefaultNightMode(nuevoModo)
 
-            // Guardamos la preferencia
+            // Se guarda la preferencia del usuario, si no se pone no funciona
             val editor = getSharedPreferences("ajustes", MODE_PRIVATE).edit()
             editor.putBoolean("modoNoche", isChecked)
             editor.apply()
         }
     }
-
-    fun obtenerIdiomasALosQueTraducir(): String {
+    //Función para obtener los idiomas a los cuales se van a traducir,
+    //para luego pasárselo al onCreate
+    private fun obtenerIdiomasALosQueTraducir(): String {
         val checkIngles = findViewById<CheckBox>(R.id.checkBox)
         val checkRuso = findViewById<CheckBox>(R.id.checkBox2)
         val checkChino = findViewById<CheckBox>(R.id.checkBox3)

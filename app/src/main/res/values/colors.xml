@@ -11,10 +11,14 @@
     <!-- Fondo claro -->
     <color name="fondoDia">#FAFAFA</color>
 
-    <!-- Fondo oscuro -->
-    <color name="fondoNoche">#1E201E</color>
+    <!-- Fondo oscuro-->
+    <color name="fondoNoche">#333333</color>
 
     <!-- Colores de texto -->
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+
+    <!-- Colores de fondo en el ScrollView -->
+    <color name="scroll_background_light">#FFFFFF</color>
+    <color name="scroll_background_dark">#333333</color>
 </resources>
