@@ -1,8 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="fondoDia">#FFFFFF</color>
-    <color name="fondoNoche">#121212</color>
+    <!-- Colores Indigo -->
+    <color name="indigo_200">#9FA8DA</color>
+    <color name="indigo_500">#3F51B5</color>
+    <color name="indigo_700">#303F9F</color>
 
+    <!-- Colores Teal -->
+    <color name="teal_100">#B2DFDB</color>
+    <color name="teal_200">#80CBC4</color>
+
+    <!-- Fondo claro -->
+    <color name="fondoDia">#FAFAFA</color>
+
+    <!-- Fondo oscuro-->
+    <color name="fondoNoche">#333333</color>
+
+    <!-- Colores de texto -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- Colores de fondo en el ScrollView -->
+    <color name="scroll_background_light">#FFFFFF</color>
+    <color name="scroll_background_dark">#333333</color>
 </resources>
