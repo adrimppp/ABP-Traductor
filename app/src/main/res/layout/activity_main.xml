@@ -1,124 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp">
+    android:layout_height="match_parent">
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/modo_noche"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        android:padding="24dp"
+        tools:context=".MainActivity">
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="147dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@id/switch1"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/tv_seleccionar_idiomas"
-        android:textColor="?android:textColor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/switch1" />
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/idioma_ingles"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView2" />
-
-    <CheckBox
-        android:id="@+id/checkBox2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/idioma_ruso"
-        app:layout_constraintStart_toEndOf="@id/checkBox"
-        app:layout_constraintTop_toTopOf="@id/checkBox" />
-
-    <CheckBox
-        android:id="@+id/checkBox3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/idioma_chino"
-        app:layout_constraintStart_toEndOf="@id/checkBox2"
-        app:layout_constraintTop_toTopOf="@id/checkBox" />
-
-    <CheckBox
-        android:id="@+id/checkBox4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/idioma_HUNGARO"
-        app:layout_constraintStart_toEndOf="@id/checkBox3"
-        app:layout_constraintTop_toTopOf="@id/checkBox" />
-
-    <EditText
-        android:id="@+id/etNombre"
-        android:layout_width="0dp"
-        android:layout_height="157dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_fondo"
-        android:hint="@string/tv_texto_traducir"
-        android:padding="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/checkBox" />
-
-    <Button
-        android:id="@+id/btnEnviar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/btn_enviar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etNombre" />
-
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="0dp"
-        android:layout_height="152dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/scroll_background_light"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnEnviar">
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:orientation="vertical">
+            android:text="@string/modo_noche"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-            <TextView
-                android:id="@+id/tvResultado"
-                android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="147dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/switch1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/tv_seleccionar_idiomas"
+            android:textColor="?android:textColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/switch1" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/idioma_ingles"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView2" />
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/idioma_ruso"
+            app:layout_constraintStart_toEndOf="@id/checkBox"
+            app:layout_constraintTop_toTopOf="@id/checkBox" />
+
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/idioma_chino"
+            app:layout_constraintStart_toEndOf="@id/checkBox2"
+            app:layout_constraintTop_toTopOf="@id/checkBox" />
+
+        <CheckBox
+            android:id="@+id/checkBox4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/idioma_HUNGARO"
+            app:layout_constraintStart_toEndOf="@id/checkBox3"
+            app:layout_constraintTop_toTopOf="@id/checkBox" />
+
+        <EditText
+            android:id="@+id/etNombre"
+            android:layout_width="0dp"
+            android:layout_height="157dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edittext_fondo"
+            android:hint="@string/tv_texto_traducir"
+            android:padding="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/checkBox" />
+
+        <Button
+            android:id="@+id/btnEnviar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/btn_enviar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etNombre" />
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="0dp"
+            android:layout_height="152dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/scroll_background_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnEnviar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="@string/resultado_de_la_traducci_n"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="16sp"
-                tools:text="Resultado de la traducción" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:background="@android:color/transparent">
 
-    </ScrollView>
+                <TextView
+                    android:id="@+id/tvResultado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="@string/resultado_de_la_traducci_n"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="16sp"
+                    tools:text="Resultado de la traducción" />
+            </LinearLayout>
 
+        </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
