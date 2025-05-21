@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ProjetABP Translator</string>
+    <string name="tv_texto_traducir">Enter the text you want to translate</string>
+    <string name="btn_enviar">Send</string>
+    <string name="modo_noche">Night mode</string>
+    <string name="idioma_ingles">English</string>
+    <string name="idioma_ruso">Russian</string>
+    <string name="idioma_chino">Chinese</string>
+    <string name="idioma_HUNGARO">Hungarian</string>
+    <string name="tv_seleccionar_idiomas">Select the languages you want to translate the text to</string>
+    <string name="resultado_de_la_traducci_n">Translation result</string>
+    <string-array name="idiomas_aplicacion">
+        <item>Spanish</item>
+        <item>French</item>
+        <item>English</item>
+    </string-array>
+</resources>

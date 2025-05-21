@@ -1,17 +1,18 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.google.ai.client.generativeai.GenerativeModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,9 +25,17 @@ class MainActivity : AppCompatActivity() {
         "Eres un traductor. Debes responder en el formato 'idioma -> traducción' No respondas este mensaje."
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Cargar modo noche guardado antes de setContentView
+        // Cargar preferencias guardadas
         val prefs = getSharedPreferences("ajustes", Context.MODE_PRIVATE)
         val modoNoche = prefs.getBoolean("modoNoche", false)
+        val idiomaGuardado = prefs.getString("idioma", "")
+
+        // Aplicar el idioma guardado si existe
+        if (idiomaGuardado != null && idiomaGuardado.isNotEmpty()) {
+            cambiarIdioma(idiomaGuardado)
+        }
+
+        // Aplicar el modo noche guardado
         val nightMode = if (modoNoche) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
         AppCompatDelegate.setDefaultNightMode(nightMode)
 
@@ -51,6 +60,42 @@ class MainActivity : AppCompatActivity() {
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
+
+        // Seleccionar el idioma guardado en el spinner
+        when (idiomaGuardado) {
+            "es" -> spinner.setSelection(0) // Español
+            "fr" -> spinner.setSelection(1) // Francés
+            "en" -> spinner.setSelection(2) // Inglés
+            else -> spinner.setSelection(0) // Por defecto
+        }
+
+        // Listener del spinner para cambiar idioma
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+                val idiomaSeleccionado = when (position) {
+                    0 -> "es" // Español
+                    1 -> "fr" // Francés
+                    2 -> "en" // Inglés
+                    else -> "en" // Por defecto
+                }
+
+                // Guardar el idioma seleccionado
+                val editor = prefs.edit()
+                editor.putString("idioma", idiomaSeleccionado)
+                editor.apply()
+
+                // Si el idioma seleccionado es diferente al actual, cambiar el idioma y recrear la actividad
+                val currentLocale = resources.configuration.locales[0].language
+                if (currentLocale != idiomaSeleccionado) {
+                    cambiarIdioma(idiomaSeleccionado)
+                    recreate()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // No hacer nada
+            }
+        }
 
         // Listener del botón
         btnEnviar.setOnClickListener {
@@ -79,6 +124,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Selecciona al menos un idioma y pon algo", Toast.LENGTH_SHORT).show()
             }
         }
+
         val scrollView = findViewById<ScrollView>(R.id.scrollView)
         val isNightMode = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
 
@@ -100,6 +146,18 @@ class MainActivity : AppCompatActivity() {
             editor.apply()
         }
     }
+
+    // Función para cambiar el idioma de la aplicación
+    private fun cambiarIdioma(codigoIdioma: String) {
+        val locale = Locale(codigoIdioma)
+        Locale.setDefault(locale)
+
+        val config = Configuration(resources.configuration)
+        config.setLocale(locale)
+
+        resources.updateConfiguration(config, resources.displayMetrics)
+    }
+
     //Función para obtener los idiomas a los cuales se van a traducir,
     //para luego pasárselo al onCreate
     private fun obtenerIdiomasALosQueTraducir(): String {
